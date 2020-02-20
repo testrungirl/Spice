@@ -17,6 +17,8 @@ namespace Spice.Areas.Customer.Controllers
         {
             db = Db;
         }
+
+        //Get Inex
         public async Task<IActionResult> Index()
         {
             //Get Index
