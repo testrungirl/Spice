@@ -1,7 +1,7 @@
-﻿
+﻿@model int
 <div class="row">
     <div class="col-6">
-        <input type="submit" class="btn btn-info form-control" asp-route-id="@Model.Id" value="Update" />
+        <input type="submit" class="btn btn-info form-control" asp-route-id="@Model" value="Update" />
     </div>
     <div class="col-6">
         <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
