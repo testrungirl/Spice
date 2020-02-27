@@ -27,7 +27,8 @@ namespace Spice.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-
+            ViewBag.Category = db.Category.ToList();
+            ViewBag.Subcategory = db.SubCategory.ToList();
             return View();
         }
     }

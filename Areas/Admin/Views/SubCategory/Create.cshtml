@@ -7,7 +7,7 @@
 <br />
 <h2 class="text-info">Sub Category List</h2>
 <br />
-<partial name="_StatusMessage" model="Model.StatusMessage" /> 
+<partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="border backgroundWhite row">
     <div class="col-8 border-right">
         <form asp-action="Create">
@@ -43,21 +43,20 @@
         </form>
     </div>
     <div class="col-3 offset-1">
-        @if(Model.SubCategoryList.Count() > 0)
+        @if (Model.SubCategoryList.Count() > 0)
         {
             <p>Existing SubCategories: </p>
 
             <div id="SubCategoryList">
                 <ul class="list-group">
-                   
                 </ul>
             </div>
         }
     </div>
-    
+
 </div>
 
-@section scripts{ 
+@section scripts{
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
 
@@ -93,5 +92,9 @@
 
 
     </script>
-
+    
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
 }

@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br/>
+<br />
 <h2 class="text-info">Edit Category</h2>
-<br/>
+<br />
 
 <form asp-action="Edit">
     <div class="border backgroundWhite">
@@ -29,3 +29,8 @@
         </div>
     </div>
 </form>
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

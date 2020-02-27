@@ -1,0 +1,139 @@
+﻿@model MenuItem
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Category = ViewBag.Category as List<Category>;
+    var Subcategory = ViewBag.Subcategory as List<SubCategory>;
+}
+
+<br />
+<h2 class="text-info">Create MenuItem</h2>
+<br />
+
+<form method="post" enctype="multipart/form-data">
+    <div class="border backgroundWhite">
+        <div asp-validaton-summary="ModelOnly" class="text-danger">
+
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Name" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Description" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                @*<textarea asp-for="Description" rows="5" class="form-control"></textarea>*@
+                @Html.TextAreaFor(x => x.Description)
+            </div>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Price" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Price" class="form-control" type="number" />
+            </div>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Image" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Image" type="file" multiple class="form-control" />
+            </div>
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="CategoryId" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="CategoryId" class="form-control">
+                    <option>Please select one</option>
+                    @foreach (var item in Category)
+                    {
+                        <option value="@item.Id">
+                            @item.Name
+                        </option>
+                    }
+                </select>
+                @*This performs the same thing as the selectlist*@
+                @*@Html.DropDownListFor(x => x.CategoryId, new SelectList(Category, "Id", "Name"))*@
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="SubCategoryId" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="SubCategoryId" name="SubCategoryId" class="form-control">
+                    <option>Please select one</option>
+                    @*@foreach (var item in Subcategory)
+                    {
+                        <option value="@item.Id">
+                            @item.Name
+                        </option>
+                    }*@
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Spicyness" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="Spicyness" asp-items="Html.GetEnumSelectList<MenuItem.ESpicy>()" class="form-control"></select>
+            </div>
+            <span asp-validation-for="Spicyness" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 offset-3">
+                <partial name="_CreateAndBackToListButton" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{ 
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: "lists",
+            menubar: 'file edit format bold alignment italic '
+        })
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getSubCategory();
+            $('#CategoryId').change(function () {
+                getSubCategory();
+            });
+        });
+        function getSubCategory() {
+            var url = '@Url.Content("~/")' + "Admin/SubCategory/GetSubCategory";
+            var ddlSource = '#CategoryId';
+            //console.log($(ddlSource).children("option:selected").val());
+            $.getJSON(url, { id: $(ddlSource).val() }, function (data) {
+                var items = '';
+                //$('#SubCategoryId').empty();
+                $.each(data, function (i, subCategory) {
+                    //items +="<option value'"+subCategory.val + "'>" + subCategory.text + "</option>";
+                    items += `<option value="${subCategory.val}"> ${subCategory.text}</option>`;
+                });
+                $('#SubCategoryId').append(items);
+            }); 
+        }
+    </script>
+     @{ 
+         await Html.RenderPartialAsync("_ValidationScriptsPartial"); 
+     }
+}
