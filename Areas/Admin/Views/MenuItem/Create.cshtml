@@ -70,7 +70,7 @@
                 <label asp-for="MenuItem.Spicyness" class="col-form-label"></label>
             </div>
             <div class="col-5">
-                <select asp-for="MenuItem.Spicyness" asp-items="Html.GetEnumSelectList<MenuItem.ESpicy>()" class="form-control"></select>
+                <select asp-for="@Model.MenuItem.Spicyness" asp-items="Html.GetEnumSelectList<MenuItem.ESpicy>()" class="form-control"></select>
             </div>
         </div>
 
@@ -105,6 +105,7 @@
                 var items = '';
                 $('#SubCategoryId').empty();
                 $.each(data, function (i, subcategory) {
+                    //items += `<option value="${subcategory.val}" > ${subcategory.text} </option>`;
                     items += "<option value='" + subcategory.value + "'>" + subcategory.text + "</option>";
                 });
                 $('#SubCategoryId').html(items);

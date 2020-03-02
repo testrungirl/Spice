@@ -155,7 +155,6 @@ namespace Spice.Areas.Customer.Controllers
                 StatusMessage = StatusMessage,
 
             };
-            //modelVM.SubCategory.Id = id;
             return View(modelVM);
         }
 
