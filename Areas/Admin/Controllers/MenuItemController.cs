@@ -158,5 +158,36 @@ namespace Spice.Areas.Admin.Controllers
             MenuItemVM.SubCategory = await db.SubCategory.Where(s => s.CategoryId == MenuItemVM.MenuItem.CategoryId).ToListAsync();
             return View(MenuItemVM);
         }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var meunItem = await db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).SingleOrDefaultAsync(m => m.Id == id);
+
+            if (meunItem == null)
+            {
+                return NotFound();
+            }
+
+            MenuItemVM.MenuItem = meunItem;
+            MenuItemVM.SubCategory = await db.SubCategory.Where(m => m.CategoryId == MenuItemVM.MenuItem.CategoryId).ToListAsync();
+            return View(MenuItemVM);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id)
+        {
+
+        }
     }
 }
