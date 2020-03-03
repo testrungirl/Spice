@@ -95,12 +95,12 @@ namespace Spice.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var meunItem = await db.MenuItem.Include(m=>m.Category).Include(m=>m.SubCategory).SingleOrDefaultAsync(m => m.Id == id);
-            if (meunItem == null)
+            var menuItem= await db.MenuItem.Include(m=>m.Category).Include(m=>m.SubCategory).SingleOrDefaultAsync(m => m.Id == id);
+            if (menuItem== null)
             {
                 return NotFound();
             }
-            MenuItemVM.MenuItem = meunItem;
+            MenuItemVM.MenuItem = menuItem;
             MenuItemVM.SubCategory = await db.SubCategory.Where(m => m.CategoryId == MenuItemVM.MenuItem.CategoryId).ToListAsync();
             return View(MenuItemVM);
         }
@@ -166,14 +166,14 @@ namespace Spice.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var meunItem = await db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).SingleOrDefaultAsync(m => m.Id == id);
+            var menuItem= await db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).SingleOrDefaultAsync(m => m.Id == id);
 
-            if (meunItem == null)
+            if (menuItem== null)
             {
                 return NotFound();
             }
 
-            MenuItemVM.MenuItem = meunItem;
+            MenuItemVM.MenuItem = menuItem;
             MenuItemVM.SubCategory = await db.SubCategory.Where(m => m.CategoryId == MenuItemVM.MenuItem.CategoryId).ToListAsync();
             return View(MenuItemVM);
         }
@@ -181,13 +181,51 @@ namespace Spice.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-
+             if (id == null)
+            {
+                return NotFound();
+            }
+            var menuItem= await db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).SingleOrDefaultAsync(m => m.Id == id);
+            if (menuItem== null)
+            {
+                return NotFound();
+            }
+            MenuItemVM.MenuItem = menuItem;
+            MenuItemVM.SubCategory = await db.SubCategory.Where(m => m.CategoryId == MenuItemVM.MenuItem.CategoryId).ToListAsync();
+            return View(MenuItemVM);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(int? id)
+        //Post - Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            //STRING_SPLIT(string, separator)
+            var menuItem = await db.MenuItem.SingleOrDefaultAsync(m => m.Id == id);
+            if(menuItem == null)
+            {
+                return View(nameof(Index));
+            }
+            /*  var image = menuItem.Image.ToString();
+                String[] seperator = { "\\"};
+                String[] strlist = image.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
+            */
 
+            string webRootPath = hostingEnvironment.WebRootPath;
+            var files = HttpContext.Request.Form.Files;
+
+            var imagePath = Path.Combine(webRootPath, menuItem.Image.TrimStart('\\'));
+
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+
+                db.Remove(menuItem);
+                await db.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(nameof(Index));
         }
     }
 }

@@ -202,7 +202,6 @@ namespace Spice.Areas.Customer.Controllers
         }
 
         //Post - Delete
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
