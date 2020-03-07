@@ -89,7 +89,7 @@ namespace Spice.Areas.Admin.Controllers
         }
 
         //Get Edit
-        public async Task<IActionResult> EditAsync(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -206,10 +206,6 @@ namespace Spice.Areas.Admin.Controllers
             {
                 return View(nameof(Index));
             }
-            /*  var image = menuItem.Image.ToString();
-                String[] seperator = { "\\"};
-                String[] strlist = image.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
-            */
 
             string webRootPath = hostingEnvironment.WebRootPath;
             var files = HttpContext.Request.Form.Files;

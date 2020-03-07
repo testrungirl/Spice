@@ -20,12 +20,12 @@ namespace Spice.Models
         public enum ECouponType { percent = 0, Dollar = 1 }
 
         [Required]
-        public double Dscount { get; set; }
+        public double Discount { get; set; }
 
         [Required]
         public double MinimumAmount { get; set; }
 
-        public byte[] Pcture { get; set; }
+        public byte[] Picture { get; set; }
 
         public bool isActive { get; set; }
     }
