@@ -1,6 +1,6 @@
 ﻿@model Spice.Models.ViewModels.IndexViewModel
 
-<hr />
+<br />
 
 @if (Model.Coupon.ToList().Count > 0)
 {
@@ -33,3 +33,20 @@
         </div>
     </div>
 }
+
+<br/><br/>
+<div class="backgroundWhite container">
+    <ul id="menu-filters" class="menu-filter-list list-inline text-center">
+        <li class="menu-filter-list active btn-secondary ml-1 mr-1"> Show All</li>
+        @foreach(var item in Model.Category)
+        {
+            <li class="menu-filter-list ml-1 ml-r" data-filter="> @item.Name.Replace(" ", string.Empty)">@item.Name</li>
+        }
+    </ul>
+    @foreach(var category in Model.Category)
+    {
+        <div class="row" id="menu_wrapper">
+            <partial name="_ThumbnailAreaPartial" model="@Model.MenuItem.Where(x=>x.Category.Name.Equals(category.Name))" />
+        </div>
+    }
+</div>
