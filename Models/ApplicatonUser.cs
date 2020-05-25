@@ -19,3 +19,6 @@ namespace Spice.Models
 
     }
 }
+//This is the snippet I used in adding migration: 
+//add-migration namespace.classname
+//add-migration -context Spice.Data.ApplicationDbContext
