@@ -13,6 +13,10 @@ namespace Spice.Data
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
         public DbSet<Category> Category { get; set; }
 
         public DbSet<SubCategory> SubCategory { get; set; }
@@ -20,6 +24,7 @@ namespace Spice.Data
         public DbSet<MenuItem> MenuItem { get; set; }
 
         public DbSet<Coupon> Coupon { get; set; }
+        public DbSet<ApplicatonUser> ApplicatonUser { get; set; }
 
     }
 }
