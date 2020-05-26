@@ -9,7 +9,6 @@ namespace Spice.Utility
     {
         public const string DefaultFoodImage = "DefaultImg.jpg";
 
-
         public const string ManagerUser = "Manager";
         public const string KitchenUser = "Kitchen";
         public const string FrontDeskUser = "FrontDesk";
