@@ -25,5 +25,36 @@ namespace Spice.Areas.Admin.Controllers
 
             return View(await db.ApplicatonUser.Where(x=>x.Id != claim.Value).ToListAsync());
         }
+
+        public async Task<IActionResult> Lock(string Id)
+        {
+            if(Id == null)
+            {
+                return NotFound();
+            }
+            var applicationUser = await db.ApplicatonUser.FirstOrDefaultAsync(x => x.Id == Id);
+            if(applicationUser == null)
+            {
+                return NotFound();
+            }
+            applicationUser.LockoutEnd = DateTime.Now.AddYears(1000);
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> UnLock(string Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+            var applicationUser = await db.ApplicatonUser.FirstOrDefaultAsync(x => x.Id == Id);
+            if (applicationUser == null)
+            {
+                return NotFound();
+            }
+            applicationUser.LockoutEnd = DateTime.Now;
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
