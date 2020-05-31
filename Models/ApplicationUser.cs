@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Spice.Models
 {
-    public class ApplicatonUser : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         public string Name { get; set; }
         public string StreetAddress { get; set; }

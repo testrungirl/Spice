@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -30,6 +31,18 @@ namespace Spice.Controllers
             IndexVM.Category = await db.Category.ToListAsync();
             IndexVM.Coupon = await db.Coupon.Where(x=>x.isActive==true).ToListAsync();
             return View(IndexVM);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Details(int id)
+        {
+            var menuItem = await db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).FirstOrDefaultAsync(m => m.Id == id);
+            ShoppingCart CartObj = new ShoppingCart()
+            {
+                MenuItem = menuItem,
+                MenuItemId = menuItem.Id,
+            };
+            return View(CartObj);
         }
 
         public IActionResult Privacy() 

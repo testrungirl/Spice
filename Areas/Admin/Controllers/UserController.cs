@@ -26,7 +26,7 @@ namespace Spice.Areas.Admin.Controllers
             var ClaimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = ClaimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            return View(await db.ApplicatonUser.Where(x=>x.Id != claim.Value).ToListAsync());
+            return View(await db.ApplicationUser.Where(x=>x.Id != claim.Value).ToListAsync());
         }
 
         public async Task<IActionResult> Lock(string Id)
@@ -35,7 +35,7 @@ namespace Spice.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var applicationUser = await db.ApplicatonUser.FirstOrDefaultAsync(x => x.Id == Id);
+            var applicationUser = await db.ApplicationUser.FirstOrDefaultAsync(x => x.Id == Id);
             if(applicationUser == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace Spice.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var applicationUser = await db.ApplicatonUser.FirstOrDefaultAsync(x => x.Id == Id);
+            var applicationUser = await db.ApplicationUser.FirstOrDefaultAsync(x => x.Id == Id);
             if (applicationUser == null)
             {
                 return NotFound();

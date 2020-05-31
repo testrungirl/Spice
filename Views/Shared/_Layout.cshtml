@@ -26,18 +26,18 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 text-white-50">
                         @if (User.IsInRole(SD.ManagerUser))
                         {
-                            <li class="nav-item dropdown text-whit-50">
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
-                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index"></a>
-                                    <a class="dropdown-item" asp-area="Admin" asp-controller="SubCategory" asp-action="Index"></a>
-                                    <a class="dropdown-item" asp-area="Admin" asp-controller="MenuItem" asp-action="Index"></a>
-                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Coupon" asp-action="Index"></a>
-                                    <a asp-area="Admin" asp-controller="User" asp-action="Index" class="dropdown-item"></a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="SubCategory" asp-action="Index">SubCategory</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="MenuItem" asp-action="Index">MenuItem</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Coupon" asp-action="Index">Coupon</a>
+                                    <a asp-area="Admin" asp-controller="User" asp-action="Index" class="dropdown-item">User</a>
                                 </div>
                             </li>
                         }
