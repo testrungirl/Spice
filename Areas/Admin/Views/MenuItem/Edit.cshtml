@@ -49,7 +49,7 @@
                     <label asp-for="MenuItem.Image" class="col-form-label"></label>
                 </div>
                 <div class="col-8">
-                    <input type="file" name="files" multiple class="form-control" />
+                    <input type="file" name="files" asp-for="MenuItem.Image" multiple class="form-control" />
                 </div>
             </div>
             <div class="form-group row">

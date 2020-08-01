@@ -8,6 +8,12 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20200215082242_AddedSubcategoryToDb.cs" />
     <Compile Remove="Data\Migrations\20200215082242_AddedSubcategoryToDb.Designer.cs" />
+    <Compile Remove="Migrations\20200609112441_db.cs" />
+    <Compile Remove="Migrations\20200609112441_db.Designer.cs" />
+    <Compile Remove="Migrations\20200609112908_db.cs" />
+    <Compile Remove="Migrations\20200609112908_db.Designer.cs" />
+    <Compile Remove="Migrations\20200609124710_user.cs" />
+    <Compile Remove="Migrations\20200609124710_user.Designer.cs" />
   </ItemGroup>
 
 
@@ -20,11 +26,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Stripe.net" Version="37.27.0" />
   </ItemGroup>
 
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

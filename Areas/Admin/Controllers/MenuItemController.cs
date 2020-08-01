@@ -74,14 +74,14 @@ namespace Spice.Areas.Admin.Controllers
                     {
                         files[0].CopyTo(filesStream);
                     }
-                    menuItemFromDb.Image = @"\images\" + MenuItemVM.MenuItem.Id + extension;
+                    menuItemFromDb.Image = @"/images/" + MenuItemVM.MenuItem.Id + extension;
                 }
                 else
                 {
                     //no file was uploaded, so use default
-                    var uploads = Path.Combine(webRootPath, @"images\" + SD.DefaultFoodImage);
-                    System.IO.File.Copy(uploads, webRootPath + @"\images\" + MenuItemVM.MenuItem.Id + ".jpg");
-                    menuItemFromDb.Image = @"\images\" + MenuItemVM.MenuItem.Id + ".jpg";
+                    var uploads = Path.Combine(webRootPath, @"images/" + SD.DefaultFoodImage);
+                    System.IO.File.Copy(uploads, webRootPath + @"/images/" + MenuItemVM.MenuItem.Id + ".jpg");
+                    menuItemFromDb.Image = @"/images/" + MenuItemVM.MenuItem.Id + ".jpg";
                 }
                 await db.SaveChangesAsync();
 
@@ -144,7 +144,7 @@ namespace Spice.Areas.Admin.Controllers
                     {
                         files[0].CopyTo(filesStream);
                     }
-                    menuItemFromDb.Image = @"\images\" + MenuItemVM.MenuItem.Id + extension_new;
+                    menuItemFromDb.Image = @"/images/" + MenuItemVM.MenuItem.Id + extension_new;
                 }
                 menuItemFromDb.Name = MenuItemVM.MenuItem.Name;
                 menuItemFromDb.Description = MenuItemVM.MenuItem.Description;
@@ -152,7 +152,7 @@ namespace Spice.Areas.Admin.Controllers
                 menuItemFromDb.Spicyness = MenuItemVM.MenuItem.Spicyness;
                 menuItemFromDb.CategoryId = MenuItemVM.MenuItem.CategoryId;
                 menuItemFromDb.SubCategoryId = MenuItemVM.MenuItem.SubCategoryId;
-
+                db.MenuItem.Update(menuItemFromDb);
                 await db.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));

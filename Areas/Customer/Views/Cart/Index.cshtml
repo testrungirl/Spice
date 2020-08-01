@@ -1,0 +1,106 @@
+﻿@model Spice.Models.ViewModels.OrderDetailsCart
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post">
+    @if (Model.ShoppingCarts.Count > 0)
+    {
+        <br />
+        <input id="userid" asp-for="@Model.ShoppingCarts[0].ApplicationUserId" hidden />
+        <div class=" backgroundWhite container">
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0 row container">
+                    <div class="col-6">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> &nbsp;
+                        Shopping Cart
+                    </div>
+                    <div class="col-6 text-right">
+                        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in Model.ShoppingCarts)
+                    {
+                        <div class="row">
+                            <div class="d-none d-md-block col-lg-2 text-center py-2">
+                                <img class="rounded" src="@item.MenuItem.Image" width="120" height="80" />
+                            </div>
+                            <div class="col-12 text-sm-center col-lg-5 text-lg-left">
+                                <h4><strong>@item.MenuItem.Name</strong></h4>
+                                <h4><small>@item.MenuItem.Description</small></h4>
+                            </div>
+                            <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
+                                <div class="col-4 text-md-right" style="padding-top:5px;">
+                                    <h6><string>$@item.MenuItem.Price <span class="text-muted">x</span> @item.Count</string></h6>
+                                </div>
+                                <div class="col-6 col-sm-4 col-lg-6">
+                                    <div class="float-left mx-1">
+                                        <button type="submit" class="btn btn-primary" asp-action="Plus" asp-route-cartId="@item.Id">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="float-left mx-1">
+                                        <button type="submit" class="btn btn-danger" asp-action="Minus" asp-route-cartId="@item.Id">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-2 col-sm-4 col-lg-2 text-right">
+                                    <button type="submit" class="btn btn-outline-danger" asp-action="remove" asp-route-cartId="@item.Id">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        //<div class="p-4"></div>
+                        <hr />
+                    }
+                    <div class="row">
+                        <div class="col-12 col-md-5">
+                            <div class="row">
+                                <div class="col-7">
+                                    <input asp-for="@Model.OrderHeaders.CouponCode" id="txtCouponCode" class="form-control" placeholder="coupon code..." />
+                                </div>
+                                <div class="col-5" style="margin-top:2px">
+                                    <button type="submit" class="btn btn-sm form-control btn-outline-success" id="btnCoupon" asp-action="AddCoupon">Apply</button>
+                                    <button type="submit" class="btn btn-sm form-control btn-outline-danger" id="btnRemoveCoupon" style="display:none" asp-action="RemoveCoupon">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 offset-md-1 col-lg-4 offset-lg-3 pr-4">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between bg-light">
+                                    <strong class="text-info">$ <span id="txtOrderTotal">@Model.OrderHeaders.OrderTotal.ToString("N2")</span></strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="col-12 col-lg-4 offset-lg-8 col-md-6 offset-md-6">
+                        <a asp-action="Summary" asp-area="Customer" asp-controller="Cart" class="btn btn-success form-control">Summary</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</form>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var couponCode = $('#txtCouponCode').val();
+            if (couponCode.length > 0) {
+                $('#btnCoupon').css({ 'display': 'none' });
+                $('#btnRemoveCoupon').css({ 'display': '' });
+            } else {
+                $('#btnCoupon').css({ 'display': '' });
+                $('#btnRemoveCoupon').css({ 'display': 'none' });
+            }
+        });
+    </script>
+}

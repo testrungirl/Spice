@@ -18,12 +18,13 @@ namespace Spice.Models
         [NotMapped]
         [ForeignKey("ApplicationUserId")]
         public virtual ApplicationUser ApplicationUser { get; set; }
-        [NotMapped]
-        [ForeignKey("MenuItemId")]
-        public int MenuItemId { get; set; }
-        public virtual MenuItem MenuItem { get; set; }
-        [Range(1,int.MaxValue, ErrorMessage = "Please enter a value greater than or equal to {1}")]
+        public int ItemId { get; set; }
 
+        [NotMapped]
+        [ForeignKey("ItemId")]        
+        public virtual MenuItem MenuItem { get; set; }
+
+        [Range(1,int.MaxValue, ErrorMessage = "Please enter a value greater than or equal to {1}")]
         public int Count { get; set; }
     }
 }
