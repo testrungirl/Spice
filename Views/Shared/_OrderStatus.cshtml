@@ -1,0 +1,25 @@
+﻿@model Spice.Models.ViewModels.OrderDetailsVM
+<div class="row">
+    <div class="col">
+        @*"Submitted" "Being prepared" "ready for Pickup" "Completed" "Canceled";*@
+        <div class="img-fluid">
+            @if (Model.OrderHeader.Status == "Submitted")
+            {
+                <img class="img-fluid" src="~/Images/OrderPlaced.png" />
+            }
+            else if (Model.OrderHeader.Status == "Being prepared")
+            {
+                <img class="img-fluid" src="~/Images/InKitchen.png" />
+            }
+            else if (Model.OrderHeader.Status == "ready for Pickup")
+            {
+                <img class="img-fluid" src="~/Images/ReadyForPickup.png" />
+            }
+            else if (Model.OrderHeader.Status == "Completed")
+            {
+                <img class="img-fluid" src="~/Images/completed.png" />
+            }
+
+        </div>
+    </div>
+</div>

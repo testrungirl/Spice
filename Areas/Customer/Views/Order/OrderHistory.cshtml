@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Spice.Models.ViewModels.OrderDetailsVM>
+﻿@model Spice.Models.ViewModels.OrderListVM
 @{
     ViewData["Title"] = "Order History";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,40 +17,51 @@
     </div>
     <br />
     <div>
-        @if (Model.Count() == 0)
+        @if (Model.Orders.Count() == 0)
         {
             <p>No category exists....</p>
         }
         else
         {
-            <table class="table table-striped border">
-                <tr class="table-secondary">
-                    <th>@Html.DisplayNameFor(m => m.OrderHeader.Id)</th>
-                    <th>@Html.DisplayNameFor(m => m.OrderHeader.PickupName)</th>
-                    <th>@Html.DisplayNameFor(m => m.OrderHeader.ApplicationUser.Email)</th>
-                    <th>@Html.DisplayNameFor(m => m.OrderHeader.PickupTime)</th>
-                    <th>@Html.DisplayNameFor(m => m.OrderHeader.OrderTotal)</th>
-                    <th>Total Items</th>
-                    <th></th>
-                </tr>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(m => item.OrderHeader.Id)</td>
-                        <td>@Html.DisplayFor(m => item.OrderHeader.PickupName)</td>
-                        <td>@Html.DisplayFor(m => item.OrderHeader.ApplicationUser.Email)</td>
-                        <td>@Html.DisplayFor(m => item.OrderHeader.PickupTime)</td>
-                        <td>@Html.DisplayFor(m => item.OrderHeader.OrderTotal)</td>
-                        <td>@Html.DisplayFor(m => item.OrderDetails.Count)</td>
-                        <td>
-                            <button type="button" class="btn btn-success anchorDetail" data-id="@item.OrderHeader.Id" data-toggle="modal">
-                                <i class="fas fa-list-alt"></i> Details
-                            </button>
-                        </td>
-
+            <div class="table-responsive">
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>@Html.DisplayNameFor(m => m.Orders[0].OrderHeader.Id)</th>
+                        <th>@Html.DisplayNameFor(m => m.Orders[0].OrderHeader.PickupName)</th>
+                        <th>@Html.DisplayNameFor(m => m.Orders[0].OrderHeader.ApplicationUser.Email)</th>
+                        <th>@Html.DisplayNameFor(m => m.Orders[0].OrderHeader.PickupTime)</th>
+                        <th>@Html.DisplayNameFor(m => m.Orders[0].OrderHeader.OrderTotal)</th>
+                        <th>Total Items</th>
+                        <th></th>
                     </tr>
-                }
-            </table>
+                    @foreach (var item in Model.Orders)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(m => item.OrderHeader.Id)</td>
+                            <td>@Html.DisplayFor(m => item.OrderHeader.PickupName)</td>
+                            <td>@Html.DisplayFor(m => item.OrderHeader.ApplicationUser.Email)</td>
+                            <td>@Html.DisplayFor(m => item.OrderHeader.PickupTime)</td>
+                            <td>@Html.DisplayFor(m => item.OrderHeader.OrderTotal)</td>
+                            <td>@Html.DisplayFor(m => item.OrderDetails.Count)</td>
+                            <td>
+                                <button type="button" class="btn btn-success anchorDetail" data-id="@item.OrderHeader.Id" data-toggle="modal">
+                                    <i class="fas fa-list-alt"></i> Details
+                                </button>
+                                <button type="button" class="btn btn-primary status" data-id="@item.OrderHeader.Id" data-toggle="modal">
+                                        <i class="fas fa-list-alt"></i> Status
+                                    </button>
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div page-model="@Model.PagingInfo" page-classes-enabled="true"
+                 page-class="btn border" page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
+                 class="btn-group float-right">
+
+            </div>
+            <br/>
         }
 
     </div>
@@ -74,23 +85,24 @@
         </div>
     </div>
 </div>
-@*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog-centered modal-dialog" role="document">
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success text-light justify-content-center">
-                <h5 class="modal-title">Order Details</h5>
-
+                <h5 class="modal-title" id="exampleModalLabel"> Order Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-body justify-content-center" id="myModalContent">
-
+            <div class="modal-body justify-content-center" id="ModalContent">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" style="width:20%" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
             </div>
         </div>
     </div>
-</div>*@
-
+</div>
 @section Scripts{
     <script>
         var postBackURL = '/Customer/Order/GetOrderDetails';
@@ -110,6 +122,27 @@
                         //console.log(data);
                         $('#myModalContent').html(data);
                         $('#myModal').modal('show');
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed");
+                    }
+                })
+            });
+            $(".status").click(function () {
+                var $buttonClicked = $(this);
+                var id = $(this).attr('data-id');
+
+                $.ajax({
+                    type: "GET",
+                    url: '/Customer/Order/GetOrderStatus',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    cache: false,
+                    dataType: "html",
+                    success: function (data) {
+                        //console.log(data);
+                        $('#ModalContent').html(data);
+                        $('#myModal1').modal('show');
                     },
                     error: function () {
                         alert("Dynamic content load failed");
